@@ -45,10 +45,6 @@ import { db } from '@/firebase'
 import popup from '../components/EventForm.vue'
 
 
-
-
-
-
 // events
 
 const events = ref([
