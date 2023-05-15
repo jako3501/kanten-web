@@ -11,6 +11,9 @@
                     <input v-model="newEventPlace" class="place" type="text" placeholder="Place">
                     <input v-model="newEventPrice" class="price" type="text" placeholder="Price">
 
+                    <input type="file" label="File input" @change="uploadImg">
+                    <button @click.prevent="addEvent()" >Add item</button> <!-- :disabled="addItemData.uploadBtnDisabled" -->
+
                     <!-- :disabled = restricting button until all inputs are filled -->
                     <button
                         :disabled="!newEventTitle || !newEventDescription || !newEventDate || !newEventPlace || !newEventPrice"
@@ -26,19 +29,21 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref as refVue } from 'vue'
 import { collection, addDoc } from "firebase/firestore"
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage"
 import { db } from '@/firebase'
 
 // Add Event
 
 
 // text input in forms
-const newEventTitle = ref('')
-const newEventDescription = ref('')
-const newEventDate = ref('')
-const newEventPlace = ref('')
-const newEventPrice = ref('')
+const newEventTitle = refVue('')
+const newEventDescription = refVue('')
+const newEventDate = refVue('')
+const newEventPlace = refVue('')
+const newEventPrice = refVue('')
+const newEventPhoto = refVue('')
 
 // create event function + db connection
 const addEvent = () => {
@@ -48,13 +53,78 @@ const addEvent = () => {
         description: newEventDescription.value,
         date: newEventDate.value,
         place: newEventPlace.value,
-        price: newEventPrice.value
+        price: newEventPrice.value,
+        imgURL: newEventPhoto.value
     })
     newEventTitle.value = ''
     newEventDescription.value = ''
     newEventDate.value = ''
     newEventPlace.value = ''
     newEventPrice.value = ''
+    newEventPhoto.value = ''
+}
+
+const storage = getStorage();
+ 
+// Firebase storage upload image + get download URL + enable button after image uploaded
+const uploadImg = async(event) => {
+  let file = event.target.files[0]; // get the file
+  console.log("file", file)
+// Create the file metadata
+/** @type {any} */
+const metadata = {
+  contentType: 'image/jpeg'
+};
+
+// Upload file and metadata to the object 'images/mountains.jpg'
+const storageRef = ref(storage, 'images/' + file.name);
+
+const uploadTask = uploadBytesResumable(storageRef, file, metadata);
+
+// Listen for state changes, errors, and completion of the upload.
+uploadTask.on('state_changed',
+  (snapshot) => {
+    // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+    let progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+    console.log('Upload is ' + progress + '% done');
+    switch (snapshot.state) {
+      case 'paused':
+        console.log('Upload is paused');
+        break;
+      case 'running':
+        console.log('Upload is running');       
+        break;
+    }
+  }, 
+  (error) => {
+    // A full list of error codes is available at
+    // https://firebase.google.com/docs/storage/web/handle-errors
+    switch (error.code) {
+      case 'storage/unauthorized':
+        // User doesn't have permission to access the object
+        break;
+      case 'storage/canceled':
+        // User canceled the upload
+        break;
+
+      // ...
+
+      case 'storage/unknown':
+        // Unknown error occurred, inspect error.serverResponse
+        break;
+    }
+  }, 
+  async () => {
+    // Upload completed successfully, now we can get the download URL
+    await getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+      console.log('File available at', downloadURL);
+
+      newEventPhoto.value = downloadURL
+     // addItemData.imgURL = downloadURL // update variable imgURL and put the image URL link in it. 
+     // addItemData.uploadBtnDisabled = false // enable button after image uploaded is complete
+    });
+  }  
+);
 }
 
 
