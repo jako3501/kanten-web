@@ -6,16 +6,17 @@
 
         <div class="new-event">
             <h2>Create new event</h2>
-            <button>Add event</button>
-            <popup>
+            <button @click="switchShow()">Add event</button>
+            <popup v-show="notShow">
                 <h2>Create event</h2>
             </popup>
+
         </div>
 
         <div class="event-card-container">
             <div v-for="event in events" class="event-card">
                 <div class="event-card-img">
-                    <img src="https://images.unsplash.com/photo-1509281373149-e957c6296406?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=728&q=80"
+                    <img :src="event.imgURL"
                         alt="">
                 </div>
                 <div class="event-card-text">
@@ -43,9 +44,18 @@ import { db } from '@/firebase'
 
 // new event popup
 import popup from '../components/EventForm.vue'
+import newEventPhoto from '../components/EventForm.vue'
+
 
 
 // events
+
+let notShow = ref(false) 
+
+let switchShow = () => {
+    notShow.value = !notShow.value
+    console.log(notShow)
+}
 
 const events = ref([
     // {
@@ -75,7 +85,8 @@ onMounted( () => {
                 title: doc.data().title,
                 place: doc.data().place,
                 price: doc.data().price,
-                date: doc.data().date
+                date: doc.data().date,
+                imgURL: doc.data().imgURL
             }
             fbEvents.push(event)
         })
@@ -133,6 +144,7 @@ const deleteEvent = id => {
     background-color: green;
     background-image: url(https://images.unsplash.com/photo-1481349518771-20055b2a7b24?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1539&q=80);
     max-width: 100%;
+    object-fit: cover;
 }
 
 .event-card-container {

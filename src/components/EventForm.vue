@@ -12,7 +12,6 @@
                     <input v-model="newEventPrice" class="price" type="text" placeholder="Price">
 
                     <input type="file" label="File input" @change="uploadImg">
-                    <button @click.prevent="addEvent()" >Add item</button> <!-- :disabled="addItemData.uploadBtnDisabled" -->
 
                     <!-- :disabled = restricting button until all inputs are filled -->
                     <button
