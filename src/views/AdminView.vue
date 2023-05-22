@@ -1,17 +1,14 @@
 <template>
     <div class="events">
-        <div class="event-hero">
 
-        </div>
-
-        <!-- <div class="new-event">
+        <div class="new-event">
             <h2>Create new event</h2>
             <button @click="switchShow()">Add event</button>
             <popup v-show="notShow">
                 <h2>Create event</h2>
             </popup>
 
-        </div> -->
+        </div>
 
         <div class="event-card-container">
             <div v-for="event in events" class="event-card">
@@ -26,7 +23,7 @@
                     <p>{{ event.price }}</p>
                     <button class="read-more">Læs mere</button>
                 </div>
-                <!-- <button @click="deleteEvent(event.id)" class="delete-event">&cross;</button> -->
+                <button @click="deleteEvent(event.id)" class="delete-event">&cross;</button>
             </div>
 
 
@@ -43,8 +40,8 @@ import { collection, onSnapshot, doc, deleteDoc } from "firebase/firestore"
 import { db } from '@/firebase'
 
 // new event popup
-// import popup from '../components/EventForm.vue'
-// import newEventPhoto from '../components/EventForm.vue'
+import popup from '../components/EventForm.vue'
+import newEventPhoto from '../components/EventForm.vue'
 
 
 
@@ -96,9 +93,9 @@ onMounted( () => {
 
 
 // delete event
-/* const deleteEvent = id => {
+const deleteEvent = id => {
     deleteDoc(doc(collection(db, "events"), id))
-} */
+}
 
 
 
@@ -106,18 +103,38 @@ onMounted( () => {
 </script>
 
 <style scoped>
+.new-event {
+    margin: 20px auto;
+    width: 50%;
+    padding: 10px;
+}
+
+.new-event h2 {
+    text-align: center;
+}
+
+.new-event p {
+    text-align: center;
+}
+
+.new-event button {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 10px;
+    background: none;
+    color: #ffffff;
+    padding: 5px 10px;
+    border-radius: 15px;
+    border-color: #ffffff;
+    border-width: 4px;
+    cursor: pointer;
+    font-size: 15px;
+}
 
 .events {
     height: 1500px;
     margin: 20px auto;
-}
-
-.event-hero {
-    height: 500px;
-    background-color: green;
-    background-image: url(https://images.unsplash.com/photo-1481349518771-20055b2a7b24?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1539&q=80);
-    max-width: 100%;
-    object-fit: cover;
 }
 
 .event-card-container {

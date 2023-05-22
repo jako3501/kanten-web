@@ -60,6 +60,30 @@ body{
   font-weight: 700;
 }
 
+button {
+  cursor: pointer;
+  background-color: #333;
+  color: var(--vt-c-white-mute);
+  padding: 0.5em 1.5em;
+  font-size: 15px;
+  font-weight: 700;
+  font-family: Poppins;
+  border: none;
+
+  --edge-size-h: 1em;
+  --edge-size-v: 1em;
+
+  clip-path: polygon(
+    var(--edge-size-h) 0, 
+    100% 0, 
+    100% calc(100% - var(--edge-size-h)), 
+    calc(100% - var(--edge-size-h)) 100%, 
+    0 100%, 
+    0 var(--edge-size-h)
+  );
+  
+}
+
 </style>
 
 
