@@ -14,19 +14,22 @@
         </div> -->
 
         <div class="event-card-container">
-            <div v-for="event in events" class="event-card">
-                <div class="event-card-img">
-                    <img :src="event.imgURL"
-                        alt="">
+            <div class="event-glow">
+                <div v-for="event in events" class="event-card">
+                    <div class="event-img-glow">
+                        <div class="event-card-img">
+                            <img :src="event.imgURL" alt="">
+                        </div>
+                    </div>
+                    <div class="event-card-text">
+                        <h3>{{ event.title }}</h3>
+                        <p>{{ event.place }}</p>
+                        <p>{{ event.date }}</p>
+                        <p>{{ event.price }}</p>
+                        <!-- <button class="read-more">Læs mere</button> -->
+                    </div>
+                    <!-- <button @click="deleteEvent(event.id)" class="delete-event">&cross;</button> -->
                 </div>
-                <div class="event-card-text">
-                    <h3>{{ event.title }}</h3>
-                    <p>{{ event.place }}</p>
-                    <p>{{ event.date }}</p>
-                    <p>{{ event.price }}</p>
-                    <button class="read-more">Læs mere</button>
-                </div>
-                <!-- <button @click="deleteEvent(event.id)" class="delete-event">&cross;</button> -->
             </div>
 
 
@@ -50,7 +53,7 @@ import { db } from '@/firebase'
 
 // events
 
-let notShow = ref(false) 
+let notShow = ref(false)
 
 let switchShow = () => {
     notShow.value = !notShow.value
@@ -75,7 +78,7 @@ const events = ref([
 ])
 
 // Get events from firebase
-onMounted( () => {
+onMounted(() => {
     onSnapshot(collection(db, "events"), (querySnapshot) => {
         const fbEvents = []
         querySnapshot.forEach((doc) => {
@@ -106,7 +109,6 @@ onMounted( () => {
 </script>
 
 <style scoped>
-
 .events {
     height: 1500px;
     margin: 20px auto;
@@ -121,47 +123,127 @@ onMounted( () => {
 }
 
 .event-card-container {
-    background-color: #ffffff25;
+    /* background-color: #ffffff25; */
     margin: 40px auto;
     padding: 20px;
-    width: 600px;
-    border-radius: 15px;
+    width: 100%;
     /* display: flex;
     flex-wrap: wrap; */
 
 }
 
 .event-card {
-    /* background-color: blue; */
-    padding: 20px;
+    background-color: var(--vt-c-black);
+    padding: 20px 60px;
+    width: 600px;
+    margin: 20px auto;
     display: flex;
-    border-radius: 15px;
+    align-items: center;
+    transition: all 0.1s;
+    cursor: pointer;
 
+    
+
+
+        /* Cut edges css */
+
+    /* 
+        --card-edge-size-h: 4em;
+        --card-edge-size-v: 8em;
+
+    clip-path: polygon(var(--card-edge-size-v) 0,
+            100% 0,
+            100% calc(100% - var(--card-edge-size-h)),
+            calc(100% - var(--card-edge-size-v)) 100%,
+            0 100%,
+            0 var(--card-edge-size-h)); */
+
+    
+
+}
+
+.event-card:first-child {
+    --card-edge-size-h: 4em;
+    --card-edge-size-v: 8em;
+
+    clip-path: polygon(var(--card-edge-size-v) 0,
+            100% 0,
+            100% 100%,
+            100% 100%,
+            0 100%,
+            0 var(--card-edge-size-h));
+}
+
+.event-card:last-child {
+    --card-edge-size-h: 4em;
+    --card-edge-size-v: 8em;
+
+    clip-path: polygon(0 0,
+            100% 0,
+            100% calc(100% - var(--card-edge-size-h)),
+            calc(100% - var(--card-edge-size-v)) 100%,
+            0 100%,
+            0 0);
+}
+
+.event-card:hover {
+    background-color: var(--vt-c-black-mute);
+    transform: scale(1.01)
+}
+
+
+/* Change to event-type color */
+.event-glow {
+    filter: drop-shadow(0 0 4px var(--vt-c-white-mute));
 }
 
 .event-card-img {
     height: 100px;
     width: 200px;
 
+
+    --img-edge-size-h: 3em;
+    --img-edge-size-v: 6.1em;
+
+    clip-path: polygon(var(--img-edge-size-v) 0,
+            100% 0,
+            100% 100%,
+            100% 100%,
+            0 100%,
+            0 var(--img-edge-size-h));
+
 }
 
 .event-card-img img {
     height: 100px;
     width: 200px;
-    border-radius: 15px;
+    object-fit: cover;
+}
+
+/* Change to event-type color */
+.event-img-glow {
+    filter: drop-shadow(0 0 4px var(--vt-c-white-mute));
 }
 
 .event-card-text {
     float: right;
-    padding: 0 20px 10px 20px;
+    padding-left: 30px;
     width: 100%;
+    display: flex;
+    flex-direction: column;
+
+
 }
 
 .event-card-text h3 {
     font-size: 25px;
+    text-transform: uppercase;
+    font-weight: 600;
 }
 
-.event-card p {}
+.event-card-text p {
+
+}
 
 .event-card-text .read-more {
     float: right;
