@@ -5,6 +5,7 @@
 <template>
   <main>
     <div class="herobox">
+      <img src="../assets/img/party-4114985_1920.jpg" alt="">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 268.55 229.9">
         <defs></defs>
         <g id="Layer_2" data-name="Layer 2">
@@ -32,6 +33,10 @@
       <div class="button-glow">
         <button class="read-more">Læs mere</button>
       </div>
+      <div class="arrow">
+        <span></span>
+        <span></span>
+      </div>
     </div>
   </main>
 </template>
@@ -43,35 +48,53 @@ body {
 }
 
 .herobox {
+  margin-top: 51px;
   width: 100%;
   display: flex;
   place-items: center;
   height: 700px;
   flex-direction: column;
+  position: relative;
+
+}
+
+.herobox img {
+  object-fit: cover;
+  aspect-ratio: 16/9;
+  width: 100%;
+  height: auto;
+  z-index: -1;
+  filter: brightness(65%);
+  max-height: 1250px;
 }
 
 .herobox svg {
   fill: var(--vt-c-white-mute);
-  width: 45%;
-  height: 70%;
-  margin: 80px auto;
+  width: 25%;
+  height: auto;
+  margin: 7% auto;
+  z-index: 1;
+  position: absolute;
 }
 
 .herobox h1 {
   color: var(--vt-c-white-mute);
   font-weight: 700;
+  position: absolute;
+  margin-top: 35%;
+  font-size: var(--fs-large);
 }
 
-button {
-  margin-top: 20px;
+.herobox button {
   cursor: pointer;
   background: var(--vt-c-black);
+  background-blend-mode: color-burn;
   color: var(--vt-c-white-mute);
   /* box-shadow: 20px 25px 50px -25px var(--vt-c-white-mute); */
   /* box-shadow: inset 0px 0px 10px #fff; */
   /* filter: drop-shadow(10px 10px 20px #FFF); */
   padding: 0.5em 2em;
-  font-size: 15px;
+  font-size: var(--fs-button);
   font-weight: 400;
   letter-spacing: .2ch;
   ;
@@ -95,12 +118,52 @@ button {
 
 .button-glow {
   filter: drop-shadow(0 0 4px var(--vt-c-white-mute));
+  position: absolute;
+  margin-top: 41%;
 }
 
 button:hover {
-    background-color: var(--vt-c-black-mute);
-    transform: scale(1.02)
+  background-color: var(--vt-c-black-mute);
+  transform: scale(1.02);
 }
-</style>
+
+.arrow {
+  display: flex;
+  margin-top: 46%;
+  position: absolute;
+  opacity: 50%;
+}
+
+span {
+  
+  width: 5px;
+  height: 28px;
+  /* border-radius: 5px; */
+  background-color: var(--vt-c-white-mute);
+  margin: 6px;
+  animation: move 1.1s infinite ease-in-out;
+}
+
+span:nth-child(1) {
+  transform: rotate(-45deg);
+}
+
+span:nth-child(2) {
+  transform: rotate(45deg);
+}
+
+@keyframes move {
+  0% {
+    margin-top: 0;
+  }
+
+  50% {
+    margin-top: 20px;
+  }
+
+  100% {
+    margin-top: 0;
+  }
+}</style>
 
 

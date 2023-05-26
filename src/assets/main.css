@@ -23,4 +23,58 @@ a,
   }
 }
 
+@media (max-width: 1750px ) {
+  :root {
+    --fs-large: 2em;
+  }
+}
+
+@media (max-width: 1500px ) {
+  :root {
+    --fs-large: 1.8em;
+    --fs-button: 1em;
+  }
+}
+
+@media (max-width: 1200px ) {
+  :root {
+    --fs-large: 1.5em;
+    --fs-button: .9em;
+  }
+}
+
+@media (max-width: 1000px ) {
+  :root {
+    --fs-large: 1.3em;
+    --fs-button: .8em;
+  }
+}
+
+@media (max-width: 800px ) {
+  :root {
+    --fs-large: 1em;
+    --fs-button: .7em;
+  }
+}
+
+@media (max-width: 650px ) {
+  :root {
+    --fs-large: .9em;
+    --fs-button: .65em;
+  }
+}
+
+@media (max-width: 500px ) {
+  :root {
+    --fs-large: .7em;
+    --fs-button: .5em;
+  }
+}
+
+@media (max-width: 350px ) {
+  :root {
+    --fs-large: .5em;
+    --fs-button: .4em;
+  }
+}
 

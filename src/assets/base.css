@@ -15,6 +15,11 @@
   --vt-c-divider-dark-1: rgba(84, 84, 84, 0.65);
   --vt-c-divider-dark-2: rgba(84, 84, 84, 0.48);
 
+  --fs-large: 2.5em;
+  --fs-medium: 1.6em;
+  --fs-small: 1em; 
+  --fs-button: 1.2em;
+
   --vt-c-text-light-1: var(--vt-c-indigo);
   --vt-c-text-light-2: rgba(60, 60, 60, 0.66);
   --vt-c-text-dark-1: var(--vt-c-white);

@@ -65,6 +65,9 @@ nav {
   text-align: center;
   margin-top: 0;
   background-color: var(--vt-c-black-mute);
+  position: fixed;
+  top: 0;
+  z-index: 10;
 }
 
 nav a {

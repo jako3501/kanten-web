@@ -23,7 +23,7 @@
 
 
 
-      <button class="new-event-close">Close window</button>
+      <!-- <button class="new-event-close">Close window</button> -->
 
     </div>
   </div>

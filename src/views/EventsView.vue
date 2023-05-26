@@ -236,13 +236,13 @@ onMounted(() => {
 }
 
 .event-card-text h3 {
-    font-size: 25px;
+    font-size: var(--fs-medium);
     text-transform: uppercase;
     font-weight: 600;
 }
 
 .event-card-text p {
-
+    font-size: var(--fs-small);
 }
 
 .event-card-text .read-more {
