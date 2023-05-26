@@ -31,10 +31,6 @@
                     <!-- <button @click="deleteEvent(event.id)" class="delete-event">&cross;</button> -->
                 </div>
             </div>
-
-
-
-
         </div>
 
     </div>

@@ -13,8 +13,10 @@
         <div class="event-card-container">
             <div class="event-glow">
                 <div v-for="event in events" class="event-card">
-                    <div class="event-card-img">
-                        <img :src="event.imgURL" alt="">
+                    <div class="event-img-glow">
+                        <div class="event-card-img">
+                            <img :src="event.imgURL" alt="">
+                        </div>
                     </div>
                     <div class="event-card-text">
                         <h3>{{ event.title }}</h3>

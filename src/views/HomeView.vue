@@ -1,5 +1,44 @@
 <script setup>
+import { ref, onMounted } from 'vue'
+import { collection, onSnapshot, doc, deleteDoc } from "firebase/firestore"
+import { db } from '@/firebase'
+import { RouterLink, RouterView } from 'vue-router'
 
+const events = ref([
+    // {
+    //     id: 'id1',
+    //     title: 'FABRÄK',
+    //     place: 'Finsensgade 1, 6700 Esbjerg',
+    //     price: '200 DKK',
+    //     date: '02/06/2023'
+    // },
+    // {
+    //     id: 'id2',
+    //     title: 'Lars Guitarsen',
+    //     place: 'Finsensgade 1, 6700 Esbjerg',
+    //     price: '9000 DKK',
+    //     date: '10/06/2023'
+    // }
+])
+
+onMounted(() => {
+    onSnapshot(collection(db, "events"), (querySnapshot) => {
+        const fbEvents = []
+        querySnapshot.forEach((doc) => {
+            // insert parameters for events from the database here
+            const event = {
+                id: doc.id,
+                title: doc.data().title,
+                place: doc.data().place,
+                price: doc.data().price,
+                date: doc.data().date,
+                imgURL: doc.data().imgURL
+            }
+            fbEvents.push(event)
+        })
+        events.value = fbEvents
+    });
+})
 </script>
 
 <template>
@@ -31,12 +70,39 @@
       </svg>
       <h1>Esbjergs nye kulturfællesskab</h1>
       <div class="button-glow">
-        <button class="read-more">Læs mere</button>
+        <button class="read-more"><RouterLink to="/about">Læs mere</RouterLink></button>
       </div>
       <div class="arrow">
         <span></span>
         <span></span>
       </div>
+    </div>
+
+    <div class="events">
+      <div class="event-heading">
+        <p>Upcoming</p>
+        <h2>Events</h2>
+      </div>
+      <div class="event-card-container">
+            <div class="event-glow">
+                <div v-for="event in events" class="event-card">
+                    <div class="event-img-glow">
+                        <div class="event-card-img">
+                            <img :src="event.imgURL" alt="">
+                        </div>
+                    </div>
+                    <div class="event-card-text">
+                        <h3>{{ event.title }}</h3>
+                        <p>{{ event.place }}</p>
+                        <p>{{ event.date }}</p>
+                        <p>{{ event.price }}</p>
+                        <!-- <button class="read-more">Læs mere</button> -->
+                    </div>
+                    <!-- <button @click="deleteEvent(event.id)" class="delete-event">&cross;</button> -->
+                </div>
+            </div>
+        </div>
+        <p>Click <RouterLink to="/events">here</RouterLink> to see all events</p>
     </div>
   </main>
 </template>
@@ -52,7 +118,6 @@ body {
   width: 100%;
   display: flex;
   place-items: center;
-  height: 700px;
   flex-direction: column;
   position: relative;
 
@@ -116,6 +181,14 @@ body {
 
 }
 
+.herobox button a {
+  color: var(--vt-c-white-mute);
+}
+
+.herobox button a:hover {
+  background: none;
+}
+
 .button-glow {
   filter: drop-shadow(0 0 4px var(--vt-c-white-mute));
   position: absolute;
@@ -127,6 +200,7 @@ button:hover {
   transform: scale(1.02);
 }
 
+/* Arrow below */
 .arrow {
   display: flex;
   margin-top: 46%;
@@ -135,7 +209,7 @@ button:hover {
 }
 
 span {
-  
+
   width: 5px;
   height: 28px;
   /* border-radius: 5px; */
@@ -152,6 +226,7 @@ span:nth-child(2) {
   transform: rotate(45deg);
 }
 
+/* Arrow animation */
 @keyframes move {
   0% {
     margin-top: 0;
@@ -164,6 +239,157 @@ span:nth-child(2) {
   100% {
     margin-top: 0;
   }
-}</style>
+}
+
+.events {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10%;
+  flex-direction: column;
+}
+
+.event-heading p {
+  background: none;
+  text-align: center;
+  font-size: var(--fs-medium);
+  text-transform: uppercase;
+  line-height: 0;
+  letter-spacing: 4px;
+}
+
+.event-heading h2 {
+  text-align: center;
+  font-size: var(--fs-xl);
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--vt-c-white-mute);
+}
+
+.event-card-container {
+    /* background-color: #ffffff25; */
+    margin: 40px auto 0 auto;
+    padding: 20px;
+    width: 100%;
+    /* display: flex;
+    flex-wrap: wrap; */
+
+}
+
+.event-card {
+    background-color: var(--vt-c-black);
+    padding: 20px 60px;
+    width: 600px;
+    margin: 20px auto;
+    display: flex;
+    align-items: center;
+    transition: all 0.1s;
+    cursor: pointer;
+
+    
+
+
+        /* Cut edges css */
+
+    /* 
+        --card-edge-size-h: 4em;
+        --card-edge-size-v: 8em;
+
+    clip-path: polygon(var(--card-edge-size-v) 0,
+            100% 0,
+            100% calc(100% - var(--card-edge-size-h)),
+            calc(100% - var(--card-edge-size-v)) 100%,
+            0 100%,
+            0 var(--card-edge-size-h)); */
+
+    
+
+}
+
+.event-card:first-child {
+    --card-edge-size-h: 4em;
+    --card-edge-size-v: 8em;
+
+    clip-path: polygon(var(--card-edge-size-v) 0,
+            100% 0,
+            100% 100%,
+            100% 100%,
+            0 100%,
+            0 var(--card-edge-size-h));
+}
+
+.event-card:last-child {
+    --card-edge-size-h: 4em;
+    --card-edge-size-v: 8em;
+
+    clip-path: polygon(0 0,
+            100% 0,
+            100% calc(100% - var(--card-edge-size-h)),
+            calc(100% - var(--card-edge-size-v)) 100%,
+            0 100%,
+            0 0);
+}
+
+.event-card:hover {
+    background-color: var(--vt-c-black-mute);
+    transform: scale(1.01)
+}
+
+
+/* Change to event-type color */
+.event-glow {
+    filter: drop-shadow(0 0 4px var(--vt-c-white-mute));
+}
+
+.event-card-img {
+    height: 100px;
+    width: 200px;
+
+
+    --img-edge-size-h: 3em;
+    --img-edge-size-v: 6.1em;
+
+    clip-path: polygon(var(--img-edge-size-v) 0,
+            100% 0,
+            100% 100%,
+            100% 100%,
+            0 100%,
+            0 var(--img-edge-size-h));
+
+}
+
+.event-card-img img {
+    height: 100px;
+    width: 200px;
+    object-fit: cover;
+}
+
+/* Change to event-type color */
+.event-img-glow {
+    filter: drop-shadow(0 0 4px var(--vt-c-white-mute));
+}
+
+.event-card-text {
+    float: right;
+    padding-left: 30px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+
+
+}
+
+.event-card-text h3 {
+    font-size: var(--fs-medium);
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.event-card-text p {
+    font-size: var(--fs-small);
+}
+
+
+</style>
 
 
