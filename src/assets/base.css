@@ -18,8 +18,10 @@
   --fs-xl: 3em;
   --fs-large: 2.5em;
   --fs-medium: 1.6em;
+  --fs-medium-small: 1.4em;
   --fs-small: 1em; 
   --fs-button: 1.2em;
+  --fs-input: 1em;
 
   --vt-c-text-light-1: var(--vt-c-indigo);
   --vt-c-text-light-2: rgba(60, 60, 60, 0.66);

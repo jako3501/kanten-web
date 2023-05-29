@@ -90,8 +90,24 @@ onMounted(() => {
             fbEvents.push(event)
         })
         events.value = fbEvents
+
+        
     });
 })
+
+// SORTING BY DATE
+
+// customSort = (a, b) => {
+//     const dateA = new Date(a.date);
+//     const dateB = new Date(b.date);
+//     if(dateA < dateB) return 1;
+//     else if(dateA > dateB) return -1;
+//     return 0;
+// }
+
+// console.log(events.sort());
+
+
 
 
 // delete event

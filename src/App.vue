@@ -37,7 +37,6 @@ signOut(auth).then(() => {
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/events">Events</RouterLink>
         <RouterLink to="/kraftvaerket">Kraftværket</RouterLink>
-        <RouterLink to="/merch">Merch</RouterLink>
         <RouterLink to="/about">About</RouterLink>
         <RouterLink to="/admin" v-if="isLoggedIn">Admin</RouterLink>
         <button @click="handleSignOut" v-if="isLoggedIn">Sign out</button>
@@ -80,4 +79,6 @@ nav a {
 nav a:first-of-type {
   border: 0;
 }
+
+
 </style>

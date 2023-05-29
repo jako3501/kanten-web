@@ -38,9 +38,9 @@ const router = createRouter({
       }
     },
     {
-      path: '/merch',
-      name: 'merch',
-      component: () => import('../views/MerchView.vue'),
+      path: '/volunteer',
+      name: 'volunteer',
+      component: () => import('../views/VolunteerView.vue'),
       meta: {
         requiresAuth: false,
       }
