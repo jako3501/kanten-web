@@ -32,7 +32,7 @@ const router = createRouter({
     {
       path: '/kraftvaerket',
       name: 'kraftvaerket',
-      component: () => import('../views/AboutView.vue'),
+      component: () => import('../views/KraftvarketView.vue'),
       meta: {
         requiresAuth: false,
       }

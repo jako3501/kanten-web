@@ -10,12 +10,25 @@
           <input v-model="newEventDate" class="date" type="text" placeholder="Date">
           <input v-model="newEventPlace" class="place" type="text" placeholder="Place">
           <input v-model="newEventPrice" class="price" type="text" placeholder="Price">
+          <form action="#">
+            <label for="lang">Event type</label>
+            <select v-model="newEventType" name="type" id="event">
+              <option value="DEFT">DEFT</option>
+              <option value="Mana-Club">Mana Club</option>
+              <option value="X-Massive">X-Massive</option>
+              <option value="Vertex">Vertex</option>
+              <option value="Andet">Andet</option>
+            </select>
+          </form>
 
           <input type="file" label="File input" @change="uploadImg">
 
           <!-- :disabled = restricting button until all inputs are filled -->
-          <button :disabled="!newEventTitle || !newEventDescription || !newEventDate || !newEventPlace || !newEventPrice"
-            class="new-event-create">Create event</button>
+          <div class="button-glow">
+            <button
+              :disabled="!newEventTitle || !newEventDescription || !newEventDate || !newEventPlace || !newEventPrice || !newEventType"
+              class="new-event-create">Create event</button>
+          </div>
 
         </form>
 
@@ -45,6 +58,7 @@ const newEventDate = refVue('')
 const newEventPlace = refVue('')
 const newEventPrice = refVue('')
 const newEventPhoto = refVue('')
+const newEventType = refVue('')
 
 // create event function + db connection
 const addEvent = () => {
@@ -55,7 +69,8 @@ const addEvent = () => {
     date: newEventDate.value,
     place: newEventPlace.value,
     price: newEventPrice.value,
-    imgURL: newEventPhoto.value
+    imgURL: newEventPhoto.value,
+    type: newEventType.value
   })
   newEventTitle.value = ''
   newEventDescription.value = ''
@@ -63,6 +78,7 @@ const addEvent = () => {
   newEventPlace.value = ''
   newEventPrice.value = ''
   newEventPhoto.value = ''
+  newEventType.value = ''
 }
 
 const storage = getStorage();
@@ -134,6 +150,8 @@ const uploadImg = async (event) => {
 </script>
 
 <style scoped>
+
+
 .popup {
   /* position: absolute; */
   transform: translateX(-50%);
@@ -142,42 +160,125 @@ const uploadImg = async (event) => {
 }
 
 .popup-inner {
-  background-color: green;
-  width: 100%;
+  background-color: var(--vt-c-black-mute);
+  width: 60%;
+  margin: 10px auto;
+
+  --button-edge-size-h: 4em;
+  --button-edge-size-v: 8em;
+
+  clip-path: polygon(var(--button-edge-size-v) 0,
+      100% 0,
+      100% calc(100% - var(--button-edge-size-h)),
+      calc(100% - var(--button-edge-size-v)) 100%,
+      0 100%,
+      0 var(--button-edge-size-h));
 }
 
 .event-form {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  max-width: 25%;
+  display: flex;
+  justify-content: center;
+  /* margin-left: auto;
+  margin-right: auto; */
+  width: 100%;
   margin-top: 20px;
   margin-bottom: 20px;
+}
 
+.event-form form {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
 }
 
 
 input {
-  background-color: #000000;
-  border: solid 2px #ffffff25;
-  height: 30px;
-  margin: 5px;
+  background-color: var(--vt-c-black);
+  border: none;
+  height: 40px;
+  width: 70%;
+  margin: 5px auto;
   color: white;
 }
 
-button {
-  display: flex;
-  flex-flow: row wrap;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 10px;
-  background: none;
-  color: #ffffff;
-  padding: 5px 10px;
-  border-radius: 15px;
-  border-color: #ffffff;
-  border-width: 4px;
-  cursor: pointer;
-  font-size: 15px;
+select {
+  background-color: var(--vt-c-black);
+  border: none;
+  height: 40px;
+  width: 70%;
+  margin: 10px auto;
+  color: white;
 }
+
+label {
+  text-align: center;
+  margin-top: 10px;
+}
+
+button {
+  cursor: pointer;
+  background: var(--vt-c-black-mute);
+  background-blend-mode: color-burn;
+  color: var(--vt-c-white-mute);
+  /* box-shadow: 20px 25px 50px -25px var(--vt-c-white-mute); */
+  /* box-shadow: inset 0px 0px 10px #fff; */
+  /* filter: drop-shadow(10px 10px 20px #FFF); */
+  padding: 0.5em 2em;
+  margin: 20px auto 40px auto;
+  font-size: var(--fs-button);
+  font-weight: 400;
+  letter-spacing: .2ch;
+  font-family: Poppins;
+  border: none;
+  transition: all 0.1s;
+
+
+  /* edges for buttons */
+  --button-edge-size-h: 1.2em;
+  --button-edge-size-v: 2.2em;
+
+  clip-path: polygon(var(--button-edge-size-v) 0,
+      100% 0,
+      100% calc(100% - var(--button-edge-size-h)),
+      calc(100% - var(--button-edge-size-v)) 100%,
+      0 100%,
+      0 var(--button-edge-size-h));
+}
+
+button:hover {
+  background-color: var(--vt-c-black);
+  transform: scale(1.02);
+}
+
+.button-glow {
+  filter: drop-shadow(0 0 4px var(--vt-c-white-mute));
+  display: flex;
+  justify-content: center;
+  /* position: absolute;
+  margin-top: 41%; */
+}
+
+@media (max-width: 1350px) {
+  .popup-inner {
+    width: 80%;
+  }
+}
+
+@media (max-width: 1000px) {
+  .popup-inner {
+    width: 90%;
+  }
+}
+
+@media (max-width: 400px) {
+    .popup-inner input {
+        height: 30px;
+    }
+
+    .popup-inner select {
+        height: 30px;
+    }
+}
+
 </style>

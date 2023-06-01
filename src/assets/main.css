@@ -16,21 +16,19 @@ a,
   transition: 0.4s;
 }
 
-@media (hover: hover) {
-  a:hover {
-    background-color: var(--vt-c-black);
-  }
-}
+
 
 @media (max-width: 1750px ) {
   :root {
     --fs-large: 2em;
+    --fs-medium: 1.8em;
   }
 }
 
 @media (max-width: 1500px ) {
   :root {
     --fs-large: 1.8em;
+    --fs-medium: 1.6em;
     --fs-button: 1em;
   }
 }
@@ -38,6 +36,7 @@ a,
 @media (max-width: 1200px ) {
   :root {
     --fs-large: 1.5em;
+    --fs-medium: 1.4em;
     --fs-button: .9em;
   }
 }
@@ -45,13 +44,17 @@ a,
 @media (max-width: 1000px ) {
   :root {
     --fs-large: 1.3em;
+    --fs-medium: 1.2em;
     --fs-button: .8em;
   }
 }
 
 @media (max-width: 800px ) {
   :root {
+    --fs-xl: 2em;
     --fs-large: 1em;
+    --fs-medium: 1em;
+    --fs-small: .9em;
     --fs-button: .7em;
   }
 }
